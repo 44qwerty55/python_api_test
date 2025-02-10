@@ -1,19 +1,27 @@
 import requests
-from assertpy import assert_that
+
+from helpers.logger import Logger
+
 
 class RequestsBuilder:
 
     def __init__(self, url: str):
         self.url = url
 
-
     def execute_get_request(self):
-        return requests.get(self.url)
+        Logger.log_request('get', self.url)
+        response = requests.get(self.url)
+        Logger.log_response(response)
+        return response
 
+    def execute_post_request(self, json=None):
+        Logger.log_request('post', self.url)
+        response = requests.post(self.url, json)
+        Logger.log_response(response)
+        return response
 
-    def validate_status_code(self, response: requests.Response, status_code: int):
-        assert_that(response.status_code).is_equal_to(status_code)
-
-
-    def validate_reason(self, response: requests.Response, reason: str):
-        assert_that(response.reason).is_equal_to(reason)
+    def execute_put_request(self, json=None):
+        Logger.log_request('post', self.url)
+        response = requests.put(self.url, json)
+        Logger.log_response(response)
+        return response
